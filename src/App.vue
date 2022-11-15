@@ -21,7 +21,7 @@
         let myUrl = store.apiURL;
 
         axios
-            .get(myUrl)
+            .get(apiUrl)
             .then((res) => {
                 store.moviesList = res.data;
             })
