@@ -20,6 +20,9 @@ export default {
         },
         getOriginalTitle() {
             return this.item.original_title ? this.item.original_title : this.item.original_name;
+        },
+        getThumbnail() {
+            return this.item.poster_path ? `http://image.tmdb.org/t/p/w342/${this.item.poster_path}` : this.getImgUrl(`no-image.jpg`);    
         }
     },
     methods: {
