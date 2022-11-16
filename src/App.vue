@@ -1,49 +1,67 @@
 <script>
-  import axios from 'axios';
-
-  import AppHeader from './components/AppHeader.vue';
-  import AppSearch from './components/AppSearch.vue';
-
-  import { store } from './store'
-
-  export default {
-    components: {
-      AppHeader,
-      AppSearch
-    },
-    data() {
-      return {
-        store
+import { store } from "./store";
+import axios from "axios";
+import AppHeader from "./components/AppHeader.vue";
+import AppSearch from "./components/AppSearch.vue";
+import AppMain from "./components/AppMain.vue";
+export default {
+  components: {
+    AppHeader,
+    AppSearch,
+    AppMain
+  },
+  data() {
+    return {
+      store
+    }
+  },
+  methods: {
+    search() {
+      console.log("Inizia la ricerca");
+      const paramsObj = {
+        api_key: this.store.apiKey,
+        query: this.store.searchKey
       }
+      this.getMovies(paramsObj);
+      this.getSeries(paramsObj);
     },
-    methods: {
-      getMovies(){
-        let myUrl = store.apiURL;
-
-        axios
-            .get(apiUrl)
-            .then((res) => {
-                store.moviesList = res.data;
-            })
-            .catch((err) => {
-                console.log("Error", err);
-            })
-      },
+    getMovies(paramsObj) {
+      axios
+        .get(`${this.store.apiURL}/movie`, {
+          params: paramsObj
+        })
+        .then((resp) => {
+          this.store.movies = resp.data.results;
+        })
+        .catch(err => {
+          console.log(err);
+        })
     },
-    created() {
-      this.getMovies();
+    getSeries(paramsObj) {
+      axios
+        .get(`${this.store.apiURL}/tv`, {
+          params: paramsObj
+        })
+        .then((resp) => {
+          this.store.series = resp.data.results;
+        })
+        .catch(err => {
+          console.log(err);
+        })
     }
   }
+}
 </script>
 
 <template>
-   <AppHeader />
-   <AppSearch />
-    
+  <div class="container">
+    <AppHeader />
+    <AppSearch @performSearch="search" />
+    <AppMain />
+  </div>
+
 </template>
 
-<style>
-body{
-  background-color: burlywood;
-}
+<style lang="scss">
+@use "./styles/general.scss" as *;
 </style>
