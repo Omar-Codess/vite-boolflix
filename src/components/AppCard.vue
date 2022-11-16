@@ -35,6 +35,7 @@ export default {
 
 <template>
     <div>
+        <img :src="getThumbnail" alt="">
         <h3>Titolo: {{ getTitle }}</h3>
         <p>Titolo originale: {{ getOriginalTitle }}</p>
         <div>
@@ -50,4 +51,5 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+
 </style>
